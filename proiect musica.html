@@ -118,12 +118,17 @@
 			for (x in tracks_db) {
 				var item = tracks_db[x]
 				buffer += '<li><a href="#" onclick="playTrack(' + x + ')">'
-				buffer += '<img id="'+ x +'" src="' + item.img + '">'
-				buffer += '<span>' + msToWords(item.duration) + "</span>"
-			}
+				buffer += '<span>' + msToWords(item.duration) + "</span>" 
+				buffer += '<img id="'+ x +'" src="' + item.img + ' align="left" width="70" height="70"">' 
+				buffer += '<table><tr><td>'+item.title+ item.username + '</td></tr>' 
+				buffer += '<tr><td>'+item.genre+ '</td></tr>'
+				}
+				
 			tracks.innerHTML = "<ul>" + buffer + "</ul>"
 		};
-
+		
+		
+		
 		function playTrack(no) {
 			audio.src = tracks_db[no].src;
 			audio.addEventListener("ended", endSong, false);
@@ -136,14 +141,22 @@
 		function endSong() {
 			playTrack(++pos);
 		}
-
+		
 		function addTrack(track) {
 			if (track.artwork_url) {
 				tracks_db.push(
 				{
+					username: track.username,
+					title: track.title,
+					genre: track.genre,
+					user_id: track.user_id,
+					id: track.id,
+					description: track.description,
+					tag: track.tag_list,
 					img: track.artwork_url,
 					src: track.stream_url + '?client_id=' + client_id,
 					duration: track.duration
+					
 				});
 			}
 		};
